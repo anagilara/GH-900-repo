@@ -15,8 +15,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var token = new Random().Next().ToString();
-        return View(token);
+        HttpContext.Session["AuthToken"] = = new Random().Next().ToString();
+        return View();
     }
 
     public IActionResult Privacy()

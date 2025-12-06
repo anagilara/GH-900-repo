@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("myGHrepo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9fd4b99c1dd3d5223cb0029f3be1ebe994cd68ad")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+864654fa56ff82f17b1c09603e7f1a010b7f74b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("myGHrepo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("myGHrepo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

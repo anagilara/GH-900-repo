@@ -15,7 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        string connString = "Server=.;Database=App;User Id=admin;Password=secret123;";
+        var token = new Random().Next().ToString();
         return View();
     }
 

@@ -15,6 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        string connectionString = "Server=.;Database=MyApp;Trusted_Connection=True;";
         return View();
     }
 

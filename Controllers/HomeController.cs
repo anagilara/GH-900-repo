@@ -15,7 +15,17 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        try
+        {
+            var userAgent = Request.Headers["User-Agent"].ToString();
+            _logger.LogInformation("User-Agent: {UserAgent}", userAgent);
+            return View();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred in Index action.");
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 
     public IActionResult Privacy()

@@ -1,18 +1,6 @@
-@using Microsoft.AspNetCore.Html
 @{
     ViewData["Title"] = "Home Page v2";
-    // En ASP.NET Core
-    var q = Context.Request.Query["q"].ToString(); // source no confiable
-    IHtmlContent raw = new HtmlString(q);          // creación de HTML sin encoding
 }
-
-
-<h2>Resultados</h2>
-
-<!-- Sink: renderizado sin encoding -->
-@raw
-
-
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>

@@ -15,7 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        string password = "thisisaFAKEp455w0r.";
+        string connString = "Server=.;Database=App;User Id=admin;Password=secret123;";
         return View();
     }
 

@@ -1,8 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Home Page v2";
+
+    var q = Request.QueryString["q"]; 
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Tu búsqueda fue: @Html.Raw(q)</p>
 </div>
+
+<script>
+    var term = "@Html.Raw(q)";
+    console.log("Buscando:", term);
+</script>

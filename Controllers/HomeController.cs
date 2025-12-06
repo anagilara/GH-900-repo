@@ -15,7 +15,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var token = new Random().Next().ToString();
+        return View(token);
     }
 
     public IActionResult Privacy()

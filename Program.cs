@@ -3,10 +3,11 @@ var builder = WebApplication.CreateBuilder(args);
 //second change
 // Add services to the container.
 //test 2
+//test 3
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-
+//test 4
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

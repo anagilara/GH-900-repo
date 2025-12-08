@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 //test 2 PR
 //squash test PR 1
 //squash test PR 4
+//rebase PR 1
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

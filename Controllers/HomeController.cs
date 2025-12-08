@@ -22,17 +22,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        try
-        {
-            var userAgent = Request.Headers["User-Agent"].ToString();
-            _logger.LogInformation("User-Agent: {UserAgent}", userAgent);
-            return View();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred in Index action.");
-            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        return View();
     }
 
     public IActionResult Privacy()

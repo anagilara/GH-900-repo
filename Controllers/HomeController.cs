@@ -8,6 +8,7 @@ using myGHrepo.Models;
 //squash test PR 2
 //squash test PR 3
 //rebase 2
+//rebase 3
 namespace myGHrepo.Controllers;
 
 public class HomeController : Controller

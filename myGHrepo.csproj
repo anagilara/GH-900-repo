@@ -9,5 +9,6 @@
     <PackageReference Include="Azure.Identity" Version="1.11.4" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.13.0" />
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.0.0-preview.1" />
+  <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 </Project>

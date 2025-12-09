@@ -1,9 +1,11 @@
 var builder = WebApplication.CreateBuilder(args);
 //test rebase 2
+//test squash 1
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 //test rebase 3
+//test squash 2
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

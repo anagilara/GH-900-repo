@@ -1,0 +1,14 @@
+# Example Terraform variables file
+# Copy this file to terraform.tfvars and update with your values
+
+resource_group_name = "gh900-rg"
+location            = "East US"
+app_name            = "gh900-app"
+app_service_sku     = "B1"
+environment         = "development"
+
+tags = {
+  Project     = "GH-900"
+  ManagedBy   = "Terraform"
+  Environment = "Development"
+}

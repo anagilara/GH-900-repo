@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/workspaces/GH-900-repo/myGHrepo.csproj": {}
+    "/home/runner/work/GH-900-repo/GH-900-repo/myGHrepo.csproj": {}
   },
   "projects": {
-    "/workspaces/GH-900-repo/myGHrepo.csproj": {
+    "/home/runner/work/GH-900-repo/GH-900-repo/myGHrepo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/GH-900-repo/myGHrepo.csproj",
+        "projectUniqueName": "/home/runner/work/GH-900-repo/GH-900-repo/myGHrepo.csproj",
         "projectName": "myGHrepo",
-        "projectPath": "/workspaces/GH-900-repo/myGHrepo.csproj",
-        "packagesPath": "/home/codespace/.nuget/packages/",
-        "outputPath": "/workspaces/GH-900-repo/obj/",
+        "projectPath": "/home/runner/work/GH-900-repo/GH-900-repo/myGHrepo.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/GH-900-repo/GH-900-repo/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/codespace/.nuget/NuGet/NuGet.Config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -24,6 +24,7 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -37,11 +38,27 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Azure.Identity": {
+              "target": "Package",
+              "version": "[1.11.4, )"
+            },
+            "Azure.Messaging.ServiceBus": {
+              "target": "Package",
+              "version": "[7.0.0-preview.1, )"
+            },
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.13.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -61,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.415/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

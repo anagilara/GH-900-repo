@@ -58,3 +58,21 @@ Este curso te proporcionará las habilidades esenciales para trabajar con GitHub
 
 ---
 ---
+
+## Utilidad Python para unir archivos de Excel
+
+Se agregó el script `unir_excels.py` para consolidar archivos `.xlsx`, `.xlsm`, `.xltx` o `.xltm` ubicados en la misma carpeta del script.
+
+Uso básico:
+
+```bash
+pip install -r requirements.txt
+python unir_excels.py
+```
+
+El script:
+- valida que existan 29 archivos de Excel por defecto (o permite omitir esa validación con `--cantidad-esperada 0`)
+- toma la primera hoja de cada archivo
+- une todas las filas en una sola hoja
+- ordena el resultado por la columna de fecha
+- genera el archivo `excel_unido.xlsx`

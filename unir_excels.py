@@ -32,6 +32,7 @@ DATE_FORMATS = (
 
 
 def parse_args() -> argparse.Namespace:
+    default_folder = Path(__file__).resolve().parent / "EXCEL"
     parser = argparse.ArgumentParser(
         description=(
             "Une archivos de Excel de una carpeta en un solo libro ordenado por fecha."
@@ -39,9 +40,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--carpeta",
-        default=Path(__file__).resolve().parent,
+        default=default_folder,
         type=Path,
-        help="Carpeta que contiene los archivos de Excel. Por defecto usa la carpeta de la aplicación.",
+        help="Carpeta que contiene los archivos de Excel. Por defecto usa la carpeta EXCEL.",
     )
     parser.add_argument(
         "--salida",
@@ -112,8 +113,10 @@ def read_excel_file(path: Path) -> tuple[list[str], list[dict[str, Any]]]:
                 continue
 
             if header_row is None:
+                if sum(1 for value in raw_row if value is not None and str(value).strip() != "") <= 1:
+                    continue
                 header_row = [
-                resolve_header_name(cell_value, position)
+                    resolve_header_name(cell_value, position)
                     for position, cell_value in enumerate(raw_row, start=1)
                 ]
                 continue
@@ -167,20 +170,18 @@ def detect_date_column(
 
 
 def sort_rows_by_date(rows: list[dict[str, Any]], date_column: str) -> list[dict[str, Any]]:
-    sortable_rows: list[tuple[datetime, dict[str, Any]]] = []
+    sortable_rows: list[tuple[datetime, int, dict[str, Any]]] = []
+    undated_rows: list[dict[str, Any]] = []
 
-    for row in rows:
+    for row_index, row in enumerate(rows):
         parsed_date = parse_date_value(row.get(date_column))
         if parsed_date is None:
-            raise ValueError(
-                "No se pudo interpretar la fecha en "
-                f"'{row['__source_file']}', fila {row['__source_row']}, "
-                f"columna '{date_column}': {row.get(date_column)!r}"
-            )
-        sortable_rows.append((parsed_date, row))
+            undated_rows.append(row)
+            continue
+        sortable_rows.append((parsed_date, row_index, row))
 
-    sortable_rows.sort(key=lambda item: item[0])
-    return [row for _, row in sortable_rows]
+    sortable_rows.sort(key=lambda item: (item[0], item[1]))
+    return [row for _, _, row in sortable_rows] + undated_rows
 
 
 def autosize_columns(worksheet: Worksheet) -> None:

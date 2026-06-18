@@ -17,6 +17,8 @@ SUPPORTED_EXTENSIONS = {".xlsx", ".xlsm", ".xltx", ".xltm"}
 DEFAULT_OUTPUT = "excel_unido.xlsx"
 DEFAULT_SHEET_NAME = "Consolidado"
 DEFAULT_EXPECTED_FILES = 29
+DATE_DETECTION_SAMPLE_SIZE = 50
+MAX_COLUMN_WIDTH = 40
 DATE_FORMATS = (
     "%Y-%m-%d",
     "%d/%m/%Y",
@@ -130,11 +132,15 @@ def read_excel_file(path: Path) -> tuple[list[str], list[dict[str, Any]]]:
     return header_row, rows
 
 
-def detect_date_column(headers: list[str], rows: list[dict[str, Any]], requested: str | None) -> str:
-    if requested:
-        if requested not in headers:
-            raise ValueError(f"La columna de fecha '{requested}' no existe en los archivos.")
-        return requested
+def detect_date_column(
+    headers: list[str], rows: list[dict[str, Any]], requested_date_column: str | None
+) -> str:
+    if requested_date_column:
+        if requested_date_column not in headers:
+            raise ValueError(
+                f"La columna de fecha '{requested_date_column}' no existe en los archivos."
+            )
+        return requested_date_column
 
     for header in headers:
         if "fecha" in header.lower():
@@ -144,7 +150,7 @@ def detect_date_column(headers: list[str], rows: list[dict[str, Any]], requested
     best_matches = 0
     for header in headers:
         matches = 0
-        for row in rows[:50]:
+        for row in rows[:DATE_DETECTION_SAMPLE_SIZE]:
             if parse_date_value(row.get(header)) is not None:
                 matches += 1
         if matches > best_matches:
@@ -180,7 +186,9 @@ def autosize_columns(worksheet: Worksheet) -> None:
     for column_cells in worksheet.columns:
         values = [cell.value for cell in column_cells if cell.value is not None]
         max_length = max((len(str(value)) for value in values), default=0)
-        worksheet.column_dimensions[column_cells[0].column_letter].width = min(max_length + 2, 40)
+        worksheet.column_dimensions[column_cells[0].column_letter].width = min(
+            max_length + 2, MAX_COLUMN_WIDTH
+        )
 
 
 def add_excel_table(worksheet: Worksheet, headers: list[str], total_rows: int) -> None:

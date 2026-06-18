@@ -10,6 +10,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table, TableStyleInfo
+from openpyxl.worksheet.worksheet import Worksheet
 
 
 SUPPORTED_EXTENSIONS = {".xlsx", ".xlsm", ".xltx", ".xltm"}
@@ -175,14 +176,14 @@ def sort_rows_by_date(rows: list[dict[str, Any]], date_column: str) -> list[dict
     return [row for _, row in sortable_rows]
 
 
-def autosize_columns(worksheet) -> None:
+def autosize_columns(worksheet: Worksheet) -> None:
     for column_cells in worksheet.columns:
         values = [cell.value for cell in column_cells if cell.value is not None]
         max_length = max((len(str(value)) for value in values), default=0)
         worksheet.column_dimensions[column_cells[0].column_letter].width = min(max_length + 2, 40)
 
 
-def add_excel_table(worksheet, headers: list[str], total_rows: int) -> None:
+def add_excel_table(worksheet: Worksheet, headers: list[str], total_rows: int) -> None:
     last_column_letter = get_column_letter(len(headers))
     reference = f"A1:{last_column_letter}{total_rows}"
     table = Table(displayName="TablaConsolidada", ref=reference)

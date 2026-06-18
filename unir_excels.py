@@ -73,7 +73,7 @@ def is_populated_row(values: tuple[Any, ...]) -> bool:
     return any(value is not None and str(value).strip() != "" for value in values)
 
 
-def normalize_header(value: Any, position: int) -> str:
+def resolve_header_name(value: Any, position: int) -> str:
     text = str(value).strip() if value is not None else ""
     return text or f"Columna_{position}"
 
@@ -113,7 +113,7 @@ def read_excel_file(path: Path) -> tuple[list[str], list[dict[str, Any]]]:
 
             if header_row is None:
                 header_row = [
-                    normalize_header(cell_value, position)
+                resolve_header_name(cell_value, position)
                     for position, cell_value in enumerate(raw_row, start=1)
                 ]
                 continue
@@ -122,6 +122,7 @@ def read_excel_file(path: Path) -> tuple[list[str], list[dict[str, Any]]]:
                 header_row[position]: raw_row[position] if position < len(raw_row) else None
                 for position in range(len(header_row))
             }
+            # Estos campos internos solo se usan para reportar el origen de una fila si ocurre un error.
             row_data["__source_file"] = path.name
             row_data["__source_row"] = row_index
             rows.append(row_data)
@@ -183,7 +184,9 @@ def sort_rows_by_date(rows: list[dict[str, Any]], date_column: str) -> list[dict
 
 
 def autosize_columns(worksheet: Worksheet) -> None:
-    for column_cells in worksheet.columns:
+    for column_cells in worksheet.iter_cols(
+        min_col=1, max_col=worksheet.max_column, min_row=1, max_row=worksheet.max_row
+    ):
         values = [cell.value for cell in column_cells if cell.value is not None]
         max_length = max((len(str(value)) for value in values), default=0)
         worksheet.column_dimensions[column_cells[0].column_letter].width = min(

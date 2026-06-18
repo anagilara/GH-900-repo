@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import closing
 from datetime import date, datetime, time
 from pathlib import Path
 from typing import Any
@@ -57,7 +58,10 @@ def parse_args() -> argparse.Namespace:
         "--cantidad-esperada",
         default=DEFAULT_EXPECTED_FILES,
         type=int,
-        help=f"Cantidad de archivos de Excel esperada. Por defecto: {DEFAULT_EXPECTED_FILES}.",
+        help=(
+            "Cantidad de archivos de Excel esperada. "
+            f"Por defecto: {DEFAULT_EXPECTED_FILES}. Use 0 para omitir esta validación."
+        ),
     )
     return parser.parse_args()
 
@@ -95,13 +99,11 @@ def parse_date_value(value: Any) -> datetime | None:
 
 
 def read_excel_file(path: Path) -> tuple[list[str], list[dict[str, Any]]]:
-    workbook = load_workbook(path, data_only=True, read_only=True)
-    worksheet = workbook[workbook.sheetnames[0]]
-
     header_row: list[str] | None = None
     rows: list[dict[str, Any]] = []
 
-    try:
+    with closing(load_workbook(path, data_only=True, read_only=True)) as workbook:
+        worksheet = workbook[workbook.sheetnames[0]]
         for row_index, raw_row in enumerate(worksheet.iter_rows(values_only=True), start=1):
             if not is_populated_row(raw_row):
                 continue
@@ -120,8 +122,6 @@ def read_excel_file(path: Path) -> tuple[list[str], list[dict[str, Any]]]:
             row_data["__source_file"] = path.name
             row_data["__source_row"] = row_index
             rows.append(row_data)
-    finally:
-        workbook.close()
 
     if header_row is None:
         raise ValueError(f"El archivo '{path.name}' no contiene filas con datos.")
@@ -217,6 +217,8 @@ def build_consolidated_excel(
 ) -> Path:
     if not folder.exists() or not folder.is_dir():
         raise ValueError(f"La carpeta '{folder}' no existe o no es válida.")
+    if expected_files < 0:
+        raise ValueError("La cantidad esperada no puede ser negativa.")
 
     excel_files = collect_excel_files(folder, output_name)
     if expected_files > 0 and len(excel_files) != expected_files:
